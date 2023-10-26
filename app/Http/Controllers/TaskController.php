@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
+use App\Models\Phase;
+use Carbon\Carbon;
 
 class TaskController extends Controller
 {
@@ -19,8 +21,10 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return \App\Models\Phase::with('tasks.user')->get();
+        return \App\Models\Phase::with('tasks.user')->withCount('tasks')->get();
     }
+
+
 
     /**
      * Display a listing of the Users resource.
@@ -66,9 +70,9 @@ class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTaskRequest $request, Task $task)
+    public function update(UpdateTaskRequest $request,Task $task)
     {
-        //
+        $task = $task->update($request->validated());
     }
 
     /**
