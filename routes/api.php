@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
 Route::middleware('auth:sanctum')->get('/tasks', [App\Http\Controllers\TaskController::class, 'index']);
 Route::middleware('auth:sanctum')->post('/tasks', [App\Http\Controllers\TaskController::class, 'store']);
 Route::middleware('auth:sanctum')->delete('/tasks/{task}', [App\Http\Controllers\TaskController::class, 'destroy']);
@@ -24,3 +25,5 @@ Route::middleware('auth:sanctum')->get('/users', [App\Http\Controllers\TaskContr
 Route::middleware('auth:sanctum')->get('/phases/{phase}', [App\Http\Controllers\PhaseController::class, 'show']);
 Route::middleware('auth:sanctum')->delete('/phases/{phase}', [App\Http\Controllers\PhaseController::class, 'destroy']);
 Route::middleware('auth:sanctum')->put('/tasks/{task}', [App\Http\Controllers\TaskController::class, 'update']);
+Route::middleware('auth:sanctum')->get('/dashboard', [App\Http\Controllers\DashBoardController::class, 'index']);
+Route::middleware('auth:sanctum')->get('/restore-cards', [App\Http\Controllers\PhaseController::class, 'restore']);

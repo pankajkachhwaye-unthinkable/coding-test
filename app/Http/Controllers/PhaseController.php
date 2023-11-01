@@ -63,4 +63,12 @@ class PhaseController extends Controller
     {
         Phase::destroy($phase->id);
     }
+
+    /**
+     * Restore all deleted phases and cards.
+     */
+    public function restore()
+    {
+        Phase::withTrashed()->restore();
+    }
 }

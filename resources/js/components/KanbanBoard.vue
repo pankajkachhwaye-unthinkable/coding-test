@@ -1,6 +1,24 @@
 <template>
+
     <div class="max-w-7xl flex-1 mx-auto flex flex-col overflow-auto sm:px-6 lg:px-8">
-        <div class="w-full mb-6 flex">
+        
+<div class="w-full mb-2 flex flex-col items-end">
+      <div class="sm:mt-2">
+                            <button type="button"
+                                class="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                                @click="reStoreCards()">Restore Deleted Cards!</button>
+                        </div>
+</div>
+       
+        <div id="kanban-container" class="flex-1 flex overflow-auto  scrollbar-hide shadow-lg">
+            <div class="text-gray-900">
+                <div class="h-full flex overflow-x-auto overflow-y-auto space-x-4">
+                    <task-column v-for="col in kanban.phases" :phase_id="col.id"></task-column>
+                </div>
+            </div>
+        </div>
+
+<div class="w-full mb-6 flex">
             <Teleport to="body">
                 <generic-modal :show="kanban.creatingTask" @close="kanban.creatingTask = false" key="createTaskModal">
                     <div>
@@ -165,15 +183,6 @@
                 </generic-modal>
             </Teleport>
         </div>
-
-        <div id="kanban-container" class="flex-1 flex overflow-auto  scrollbar-hide shadow-lg">
-            <div class="text-gray-900">
-                <div class="h-full flex overflow-x-auto overflow-y-auto space-x-4">
-                    <task-column v-for="col in kanban.phases" :phase_id="col.id"></task-column>
-                </div>
-            </div>
-        </div>
-
         <!-- Modal to edit the selected card -->
         <Teleport to="body">
             <generic-modal v-if="kanban.hasSelectedTask()" @close="kanban.unselectTask()">
@@ -272,6 +281,15 @@ const mouseUpHandler = function () {
     document.removeEventListener('mouseup', mouseUpHandler);
 };
 
+
+const reStoreCards = async () => {
+    try {
+        const response = await axios.get('/api/restore-cards');
+         await refreshTasks();
+    } catch (error) {
+        console.error('There was an error fetching the tasks!', error);
+    }
+}
 const refreshTasks = async () => {
     try {
         const response = await axios.get('/api/tasks');
@@ -280,6 +298,7 @@ const refreshTasks = async () => {
             acc[cur.id] = cur;
             return acc;
         }, {});
+          console.log('kanban.phases',kanban.phases)
     } catch (error) {
         console.error('There was an error fetching the tasks!', error);
     }
@@ -396,4 +415,8 @@ onUnmounted(() => {
     /* IE and Edge */
     scrollbar-width: none;
     /* Firefox */
-}</style>
+}
+.phase-container{
+    height: 400px;
+}
+</style>

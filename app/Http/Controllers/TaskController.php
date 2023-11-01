@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
 use App\Models\Phase;
 use Carbon\Carbon;
+use App\Http\Requests\Auth\AuthorizedRequest;
 
 class TaskController extends Controller
 {
@@ -19,7 +20,7 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index() 
     {
         return \App\Models\Phase::with('tasks.user')->withCount('tasks')->get();
     }
@@ -82,4 +83,6 @@ class TaskController extends Controller
     {
         Task::destroy($task->id);
     }
+
+   
 }

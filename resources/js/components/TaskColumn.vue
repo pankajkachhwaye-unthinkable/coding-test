@@ -1,7 +1,7 @@
 <template>
 <div class="w-[300px] bg-sky-950 rounded-lg shadow-lg">
-    <div class="p-4">
-        <div class="flex items-center justify-between">
+    <div class="py-4">
+        <div class="flex items-center justify-between px-4">
             <h2 class="text-lg text-zinc-100 font-black mb-3">{{ kanban.phases[props.phase_id].name }} ({{kanban.phases[props.phase_id].tasks_count}})</h2>
            <span class="flex">
              <PlusIcon 
@@ -13,14 +13,20 @@
            
                
         </div>
-        <task-card v-if="kanban.phases[props.phase_id].tasks.length > 0" v-for="task in kanban.phases[props.phase_id].tasks" :task="task" />
+        <div class="px-4 overflow-auto phase-container">
+            <task-card v-if="kanban.phases[props.phase_id].tasks.length > 0" v-for="task in kanban.phases[props.phase_id].tasks" :task="task" />
+        </div>
+        
         
         <!-- A card to create a new task -->
-        <div class="w-full flex items-center justify-between bg-white text-gray-900 hover:cursor-pointer shadow-md rounded-lg p-3 relative"
+        <div class="p-4">
+               <div class="w-full flex items-center justify-between bg-white text-gray-900 hover:cursor-pointer shadow-md rounded-lg p-3 relative"
             @click="createTask()">
             <span>Create a new task</span>
             <PlusIcon class="h-6 w-6" aria-hidden="true" />
         </div>
+        </div>
+     
 
     </div>
 </div>
@@ -65,6 +71,7 @@ const refreshTasks = async () => {
             acc[cur.id] = cur;
             return acc;
         }, {});
+      
     } catch (error) {
         console.error('There was an error fetching the tasks!', error);
     }
@@ -72,3 +79,46 @@ const refreshTasks = async () => {
 
 
 </script>
+<style scoped>/* For Webkit-based browsers (Chrome, Safari and Opera) */
+
+.phase-container{
+    height: 350px;
+}
+
+
+:root {
+  --primary: rebeccapurple;
+  --secondary: cornflowerblue;
+}
+
+/* Scrollbar styles */
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) var(--secondary);
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--primary);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--secondary);
+/*   background: repeating-linear-gradient(
+    45deg,
+    var(--secondary),
+    var(--secondary) 5px,
+    var(--primary) 5px,
+    var(--primary) 10px
+  ); */
+  border-radius: 20px;
+  border: 3px solid var(--primary);
+}
+
+</style>

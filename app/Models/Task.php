@@ -51,17 +51,5 @@ class Task extends Model
             
         });
     }
-
-
-    // public function setCompletedAtAttribute()
-    // {
-    //     dd($this->attributes['phase_id']);
-    //     $completion_phase = [Phase::PHASE_DONE,Phase::PHASE_ARCHIVED];
-    //     // $phase_id = 
-    //     // if(!$this->attributes['completed_at'] && $this->attributes['phase_id'] == )
-    //     // {
-    //     //     $this->attributes['completed_at'] = now();
-    //     // }
-    // }
  
 }
